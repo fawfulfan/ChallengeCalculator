@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 6</title>
+<title>Calculator 7</title>
 </head>
 
 <body>
@@ -16,19 +16,17 @@
 		// Get the user input
 		var strUserInput = document.getElementById("numbersToAdd").value;
 
-		// Get the custom delimiter, if defined
-		var strDelimiter = getCustomDelimiter(strUserInput);
+		// Define the default delimiters
+		var aDelimiters = [',', '\n'];
 
-		// Separate out all values using default and custom delimiters
-		var aValues = [];
-		if (strDelimiter === "")
-		{
-			aValues = parseValues(strUserInput);
-		}
-		else
-		{
-			aValues = parseValues(strUserInput, strDelimiter);
-		}
+		// Get the custom delimiters, if defined
+		aDelimiters = aDelimiters.concat(getDelimiters(strUserInput));
+
+		// Clear any delimiter definitions from the user input
+		strUserInput = clearDelimiterDefinitions(strUserInput);
+
+		// Separate out all values
+		var aValues = parseValues(strUserInput, aDelimiters);
 
 		// Verify there are no negative numbers input
 		var aNegatives = findNegatives(aValues);
@@ -46,27 +44,88 @@
 		}
 	}
 
-	function getCustomDelimiter(strUserInput)
+	function getDelimiters(strUserInput)
 	{
-		// If a blank string is returned, there is no custom delimiter
-		var strDelimiter = "";
+		// Initialize delimiter list
+		var aDelimiters = [];
 
-		// Verify the input is long enough to support a custom delimiter
+		// Verify the input is long enough to support a delimiter
 		if (strUserInput.length >= 2)
 		{
-			// Verify the first character is not a number, and the second character is a newline
-			if (isNaN(strUserInput[0]) && strUserInput[1] === "\n")
+			// Check for a delimiter defining bracket
+			if (strUserInput[0] === '[')
 			{
-				// The first character is the custom delimiter
-				strDelimiter = strUserInput[0];
+				// Create the delimiter
+				var strDelimiter = "";
+				var nInputIndex = 1;
+				while (nInputIndex < strUserInput.length)
+				{
+					// Check if the delimiter terminates expectedly
+					if (strUserInput[nInputIndex] === ']')
+					{
+						// Check if a valid delimiter is defined
+						if (strDelimiter !== "" && isNaN(strDelimiter))
+						{
+							// Add the delimiter
+							aDelimiters.push(strDelimiter);
+							break;
+						}
+					}
+
+					// Check if the delimiter terminates unexpectedly
+					else if (strUserInput[nInputIndex] === '\n')
+					{
+						break;
+					}
+
+					// Add the next character to the delimiter
+					else
+					{
+						strDelimiter += strUserInput[nInputIndex];
+						++nInputIndex;
+					}
+				}
+			}
+
+			// Otherwise, the first character is not a number, and the second character is a newline
+			else if (isNaN(strUserInput[0]) && strUserInput[1] === '\n')
+			{
+				// The first character is the delimiter
+				aDelimiters.push(strUserInput[0]);
 			}
 		}
 
-		// Return the custom delimiter
-		return strDelimiter;
+		// Return the list of delimiters
+		return aDelimiters;
 	}
 
-	function parseValues(strUserInput, strDelimiter)
+	function clearDelimiterDefinitions(strUserInput)
+	{
+		// Verify the input is long enough to support a delimiter
+		if (strUserInput.length >= 2)
+		{
+			// Verify there are custom delimiters defined
+			if (strUserInput[0] === '[')
+			{
+				// If there is no newline, this input contains no numbers
+				if (strUserInput.indexOf('\n') === -1)
+				{
+					strUserInput = "";
+				}
+
+				// Otherwise, remove the delimiters from the input
+				else
+				{
+					strUserInput = strUserInput.slice(strUserInput.indexOf('\n') + 1);
+				}
+			}
+		}
+	
+		// Return the cleaned up user input
+		return strUserInput;
+	}
+
+	function parseValues(strUserInput, aDelimiters)
 	{
 		// Initialize the list of values
 		var aValues = [];
@@ -76,8 +135,11 @@
 		var nInputIndex = 0;
 		while (nInputIndex <= strUserInput.length)
 		{
+			// Check whether a delimiter exists and if so, how many spaces need to be jumped
+			var nDelimiterSpacesToJump = checkDelimiters(aDelimiters, strUserInput, nInputIndex);
+
 			// Check if this is the end of the input or a delimiter
-			if (nInputIndex === strUserInput.length || strUserInput[nInputIndex] === "," || strUserInput[nInputIndex] === "\n" || strDelimiter != null && strUserInput[nInputIndex] === strDelimiter)
+			if (nInputIndex === strUserInput.length || nDelimiterSpacesToJump > 0)
 			{
 				// Verify that there is a value to parse
 				if (strValue !== "")
@@ -99,6 +161,9 @@
 
 					// Reset the string containing the value
 					strValue = "";
+
+					// Jump the necessary number of spaces to skip the delimiter
+					nInputIndex += Math.max(nDelimiterSpacesToJump - 1, 0);
 				}
 			}
 
@@ -113,6 +178,25 @@
 		
 		// Return all the values that have been found
 		return aValues;
+	}
+
+	function checkDelimiters(aDelimiters, strUserInput, nInputIndex)
+	{
+		// Initialize the maximum length of the delimiter found at this index
+		var nMaxDelimiterLength = 0;
+
+		// Check each defined delimiter
+		for (var nDelimiterIndex = 0; nDelimiterIndex < aDelimiters.length; ++nDelimiterIndex)
+		{
+			// If the delimiter exists at this index, update the maximum length of the delimiter
+			if (strUserInput.substring(nInputIndex, nInputIndex + aDelimiters[nDelimiterIndex].length) === aDelimiters[nDelimiterIndex])
+			{
+				nMaxDelimiterLength = Math.max(nMaxDelimiterLength, aDelimiters[nDelimiterIndex].length);
+			}
+		}
+
+		// Return the maximum length of the delimiter
+		return nMaxDelimiterLength;
 	}
 
 	function addValues(aValues)
