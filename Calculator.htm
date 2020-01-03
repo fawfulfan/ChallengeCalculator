@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 1</title>
+<title>Calculator 2</title>
 </head>
 
 <body>
@@ -19,19 +19,11 @@
 		// Separate out all values
 		var aValues = parseValues(strUserInput);
 
-		// Verify there are not more than two values to add
-		if (aValues.length > 2)
-		{
-			throw "Error: Number of values to add should not exceed 2!";
-		}
-		else
-		{
-			// Add together all values
-			var nSum = addValues(aValues);
+		// Add together all values
+		var nSum = addValues(aValues);
 
-			// Display the value
-			alert(nSum);
-		}
+		// Display the value
+		alert(nSum);
 	}
 
 	function parseValues(strUserInput)
