@@ -1,13 +1,13 @@
-Step 2, with the newline character supported as a delimiter.
+Step 3, but negative numbers are disallowed and will be listed in an exception
 
 Here are the values to test, and their results:
 
 20 -> 20
 1,5000 -> 5001
-4,-3 -> 1
+4,-3 -> Error: Invalid numbers given: -3
 5,tytyt -> 5
 tytyt -> 0
-5,-5 -> 0
+5,-5 -> Error: Invalid numbers given: -5
 ,5 -> 5
 , -> 0
 1,2,3 -> 6
@@ -18,3 +18,4 @@ tytyt -> 0
 3\n4 -> 7
 3\n4, -> 7
 3,\n4, -> 7
+5,-5,-2 -> Error: Invalid numbers given: -5, -2

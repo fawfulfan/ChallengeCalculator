@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 3</title>
+<title>Calculator 4</title>
 </head>
 
 <body>
@@ -19,11 +19,20 @@
 		// Separate out all values
 		var aValues = parseValues(strUserInput);
 
-		// Add together all values
-		var nSum = addValues(aValues);
+		// Verify there are no negative numbers input
+		var aNegatives = findNegatives(aValues);
+		if (aNegatives.length > 0)
+		{
+			throwNegativeException(aNegatives);
+		}
+		else
+		{
+			// Add together all values
+			var nSum = addValues(aValues);
 
-		// Display the value
-		alert(nSum);
+			// Display the value
+			alert(nSum);
+		}
 	}
 
 	function parseValues(strUserInput)
@@ -78,6 +87,38 @@
 
 		// Return the total value
 		return nSum;
+	}
+
+	function findNegatives(aValues)
+	{
+		// Check each value
+		var aNegatives = [];
+		for (var nValueIndex = 0; nValueIndex < aValues.length; ++nValueIndex)
+		{
+			// Grab any negative values
+			if (aValues[nValueIndex] < 0)
+			{
+				aNegatives.push(aValues[nValueIndex]);
+			}
+		}
+
+		// Return all negatives found
+		return aNegatives;
+	}
+
+	function throwNegativeException(aNegatives)
+	{
+		// Get first negative
+		var strException = "Error: Invalid numbers given: " + aNegatives[0];
+		
+		// Get each subsequent negative
+		for (var nNegativeIndex = 1; nNegativeIndex < aNegatives.length; ++nNegativeIndex)
+		{
+			strException += ", " + aNegatives[nNegativeIndex];
+		}
+
+		// Throw the exception
+		throw strException;
 	}
 </script>
 </html>
