@@ -1,9 +1,9 @@
-Step 3, but negative numbers are disallowed and will be listed in an exception
+Step 4, but throws out any number greater than 1000.
 
 Here are the values to test, and their results:
 
 20 -> 20
-1,5000 -> 5001
+1,5000 -> 1
 4,-3 -> Error: Invalid numbers given: -3
 5,tytyt -> 5
 tytyt -> 0
@@ -19,3 +19,5 @@ tytyt -> 0
 3\n4, -> 7
 3,\n4, -> 7
 5,-5,-2 -> Error: Invalid numbers given: -5, -2
+2,1000,6 -> 1008
+2,1001,6 -> 8

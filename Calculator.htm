@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 4</title>
+<title>Calculator 5</title>
 </head>
 
 <body>
@@ -55,7 +55,16 @@
 					var nValue = parseInt(strValue);
 
 					// If the value is not a number, evaluate the value as 0
-					aValues.push((isNaN(nValue)? 0 : nValue));
+					if (isNaN(nValue))
+					{
+						nValue = 0;
+					}
+
+					// If the value is not greater than 1000, add it to the value list
+					if (nValue <= 1000)
+					{
+						aValues.push(nValue);
+					}
 
 					// Reset the string containing the value
 					strValue = "";
