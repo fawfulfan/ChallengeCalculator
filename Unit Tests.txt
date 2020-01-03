@@ -1,4 +1,4 @@
-Step 4, but throws out any number greater than 1000.
+Step 5, but allows a custom delimiter to be defined using the format {delimiter}\n{numbers}
 
 Here are the values to test, and their results:
 
@@ -21,3 +21,6 @@ tytyt -> 0
 5,-5,-2 -> Error: Invalid numbers given: -5, -2
 2,1000,6 -> 1008
 2,1001,6 -> 8
+*\n4*4 -> 8
+\n4,4 -> 8
+\n\n4\n4 -> 8
