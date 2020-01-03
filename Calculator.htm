@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 8</title>
+<title>Calculator SG1</title>
 </head>
 
 <body>
@@ -36,11 +36,8 @@
 		}
 		else
 		{
-			// Add together all values
-			var nSum = addValues(aValues);
-
-			// Display the value
-			alert(nSum);
+			// Display the formula
+			alert(constructFormula(aValues));
 		}
 	}
 
@@ -209,6 +206,35 @@
 
 		// Return the maximum length of the delimiter
 		return nMaxDelimiterLength;
+	}
+
+	function constructFormula(aValues)
+	{
+		// Initialize formula
+		var strFormula = "";
+
+		// Check that there are values to construct the formula
+		if (aValues.length > 0)
+		{
+			// Insert the first value
+			strFormula = aValues[0].toString();
+
+			// Check each subsequent value
+			for (var nValueIndex = 1; nValueIndex < aValues.length; ++nValueIndex)
+			{
+				// Add the value to the formula
+				strFormula += "+" + aValues[nValueIndex];
+			}
+
+			// Add the equals operator
+			strFormula += " = ";
+		}
+
+		// Add the result to the end of the formula
+		strFormula += addValues(aValues);
+
+		// Return the formula
+		return strFormula;
 	}
 
 	function addValues(aValues)
