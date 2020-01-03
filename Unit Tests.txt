@@ -1,4 +1,4 @@
-Step 6, but allows a custom delimiter of any length to be defined using the format [{delimiter}]\n{numbers}
+Step 7, but allows multiple custom delimiters of any length to be defined using the format [{delimiter}][...]\n{numbers}
 
 Here are the values to test, and their results:
 
@@ -27,3 +27,4 @@ tytyt -> 0
 [***]\n11***22***33 -> 66
 [***\nll***22***33 -> 11
 [*4*] -> 0
+[*][!!][r9r]\n11r9r22*hh*33!!44 -> 110

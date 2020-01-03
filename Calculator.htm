@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 7</title>
+<title>Calculator 8</title>
 </head>
 
 <body>
@@ -56,34 +56,46 @@
 			if (strUserInput[0] === '[')
 			{
 				// Create the delimiter
+				var bOpenBrackets = true;
 				var strDelimiter = "";
 				var nInputIndex = 1;
 				while (nInputIndex < strUserInput.length)
 				{
-					// Check if the delimiter terminates expectedly
-					if (strUserInput[nInputIndex] === ']')
+					// Check if all delimiters are done
+					if (strUserInput[nInputIndex] === '\n')
+					{
+						break;
+					}
+					
+					// Check if a new delimiter is being defined
+					else if (strUserInput[nInputIndex] === '[')
+					{
+						bOpenBrackets = true;;
+					}
+
+					// Check if the delimiter terminates
+					else if (strUserInput[nInputIndex] === ']')
 					{
 						// Check if a valid delimiter is defined
 						if (strDelimiter !== "" && isNaN(strDelimiter))
 						{
 							// Add the delimiter
 							aDelimiters.push(strDelimiter);
-							break;
+
+							// Close the delimiter
+							bOpenBrackets = false;
+							strDelimiter = "";
 						}
 					}
 
-					// Check if the delimiter terminates unexpectedly
-					else if (strUserInput[nInputIndex] === '\n')
-					{
-						break;
-					}
-
 					// Add the next character to the delimiter
-					else
+					else if (bOpenBrackets)
 					{
 						strDelimiter += strUserInput[nInputIndex];
-						++nInputIndex;
 					}
+
+					// Check the next character
+					++nInputIndex;
 				}
 			}
 
@@ -120,7 +132,7 @@
 				}
 			}
 		}
-	
+
 		// Return the cleaned up user input
 		return strUserInput;
 	}
