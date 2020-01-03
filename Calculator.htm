@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Calculator 1</title>
+</head>
+
+<body>
+	<div><textarea id="numbersToAdd" rows="5" cols="60" placeholder="Enter numbers to add..."/></textarea></div>
+	<div><input type="button" value="Calculate" onclick="main();"/></div>
+</body>
+
+<script>
+	function main()
+	{
+		// Get the user input
+		var strUserInput = document.getElementById("numbersToAdd").value;
+
+		// Separate out all values
+		var aValues = parseValues(strUserInput);
+
+		// Verify there are not more than two values to add
+		if (aValues.length > 2)
+		{
+			throw "Error: Number of values to add should not exceed 2!";
+		}
+		else
+		{
+			// Add together all values
+			var nSum = addValues(aValues);
+
+			// Display the value
+			alert(nSum);
+		}
+	}
+
+	function parseValues(strUserInput)
+	{
+		// Initialize the list of values
+		var aValues = [];
+
+		// Check each character in the list
+		var strValue = "";
+		var nInputIndex = 0;
+		while (nInputIndex <= strUserInput.length)
+		{
+			// Check if this is the end of the input or a delimiter
+			if (nInputIndex === strUserInput.length || strUserInput[nInputIndex] === ",")
+			{
+				// Verify that there is a value to parse
+				if (strValue !== "")
+				{
+					// Verify that the value up to this point is a valid number
+					var nValue = parseInt(strValue);
+
+					// If the value is not a number, evaluate the value as 0
+					aValues.push((isNaN(nValue)? 0 : nValue));
+
+					// Reset the string containing the value
+					strValue = "";
+				}
+			}
+
+			// For any other kind of character, add it to the value string
+			else
+			{
+				strValue += strUserInput[nInputIndex];
+			}
+
+			++nInputIndex;
+		}
+		
+		// Return all the values that have been found
+		return aValues;
+	}
+
+	function addValues(aValues)
+	{
+		// Check each value
+		var nSum = 0;
+		for (var nValueIndex = 0; nValueIndex < aValues.length; ++nValueIndex)
+		{
+			// Add the value to the total
+			nSum += aValues[nValueIndex];
+		}
+
+		// Return the total value
+		return nSum;
+	}
+</script>
+</html>

@@ -1,0 +1,13 @@
+Here are the values to test, and their results:
+
+20 -> 20
+1,5000 -> 5001
+4,-3 -> 1
+5,tytyt -> 5
+tytyt -> 0
+5,-5 -> 0
+,5 -> 5
+, -> 0
+1,2,3 -> Error: Number of values to add should not exceed 2!
+1,2, -> 3
+,1,2 -> 3
