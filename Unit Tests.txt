@@ -1,4 +1,4 @@
-Step 1, with the restriction on number of values removed.
+Step 2, with the newline character supported as a delimiter.
 
 Here are the values to test, and their results:
 
@@ -15,3 +15,6 @@ tytyt -> 0
 ,1,2 -> 3
 1,2,3,4,5,6,7,8,9,10,11,12 -> 78
 1,2,3,4,5,6,7,8,9,10,11,tytyt,12 -> 78
+3\n4 -> 7
+3\n4, -> 7
+3,\n4, -> 7

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Calculator 2</title>
+<title>Calculator 3</title>
 </head>
 
 <body>
@@ -37,7 +37,7 @@
 		while (nInputIndex <= strUserInput.length)
 		{
 			// Check if this is the end of the input or a delimiter
-			if (nInputIndex === strUserInput.length || strUserInput[nInputIndex] === ",")
+			if (nInputIndex === strUserInput.length || strUserInput[nInputIndex] === "," || strUserInput[nInputIndex] === "\n")
 			{
 				// Verify that there is a value to parse
 				if (strValue !== "")
